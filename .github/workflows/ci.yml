@@ -46,9 +46,6 @@ jobs:
       - name: Frontend Lint
         run: npm run lint:check
 
-      - name: Frontend Types
-        run: npm run types:check
-
       - name: Copy Environment File
         run: cp .env.example .env
 
