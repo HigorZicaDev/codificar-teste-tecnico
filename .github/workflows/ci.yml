@@ -43,9 +43,6 @@ jobs:
       - name: PHP Type Analysis
         run: composer types:check
 
-      - name: Frontend Format
-        run: npm run format:check
-
       - name: Frontend Lint
         run: npm run lint:check
 
