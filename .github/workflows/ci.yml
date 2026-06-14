@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 jobs:
-  quality:
+  ci:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
@@ -34,6 +34,9 @@ jobs:
       - name: Install Node Dependencies
         run: npm install --no-audit
 
+      - name: Build Assets
+        run: npm run build
+
       - name: PHP Code Style
         run: composer lint:check
 
@@ -48,22 +51,6 @@ jobs:
 
       - name: Frontend Types
         run: npm run types:check
-
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
-        with:
-          persist-credentials: false
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@7c071dfe9dc99bdf297fa79cb49ea005b9fcadbc # v2
-        with:
-          php-version: '8.4'
-          tools: composer:v2
-
-      - name: Install PHP Dependencies
-        run: composer install --no-interaction --prefer-dist --optimize-autoloader
 
       - name: Copy Environment File
         run: cp .env.example .env
