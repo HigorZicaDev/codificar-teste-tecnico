@@ -40,6 +40,7 @@ class Ticket extends Model
         ];
     }
 
+    /** @return BelongsTo<Owner, $this> */
     public function owner(): BelongsTo
     {
         return $this->belongsTo(Owner::class);
@@ -50,7 +51,10 @@ class Ticket extends Model
         return $this->status->isOpen();
     }
 
-    /** @param Builder<Ticket> $query */
+    /**
+     * @param  Builder<Ticket>  $query
+     * @return Builder<Ticket>
+     */
     public function scopeOpen(Builder $query): Builder
     {
         return $query->whereIn('status', [TicketStatus::Open, TicketStatus::InProgress]);

@@ -22,6 +22,7 @@ class Owner extends Model
     /** @use HasFactory<OwnerFactory> */
     use HasFactory;
 
+    /** @return HasMany<Ticket, $this> */
     public function tickets(): HasMany
     {
         return $this->hasMany(Ticket::class);

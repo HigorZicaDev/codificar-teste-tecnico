@@ -37,8 +37,8 @@ Sistema web para gerenciamento de chamados internos de equipes. Permite criar, v
 **Wayfinder:**
 Gera funções TypeScript a partir das rotas nomeadas do Laravel (`@/routes/tickets`), garantindo que URLs no frontend sejam sempre sincronizadas com o backend.
 
-**`opened_at` gerenciado pelo serviço:**
-Registra quando o chamado entrou em estado aberto pela primeira vez. Definido pelo `TicketService` (não por observer) para manter a lógica explícita e testável. Nunca é sobrescrito após definido.
+**`opened_at` e `closed_at` gerenciados pelo serviço:**
+Registram, respectivamente, quando o chamado entrou em estado aberto e quando foi fechado/resolvido pela primeira vez. Ambos são definidos pelo `TicketService` e nunca sobrescritos após definidos. `created_at`/`updated_at` são campos internos do Laravel e não são exibidos na interface.
 
 ---
 
@@ -71,7 +71,7 @@ Ao criar ou reatribuir um chamado sem especificar responsável:
 - PHP ^8.4
 - Composer ^2
 - Node.js ^20
-- SQLite (padrão) ou MySQL 8+ / PostgreSQL 15+
+- SQLite (padrão)
 
 ---
 
@@ -96,37 +96,27 @@ O projeto usa **SQLite por padrão** — sem necessidade de configurar servidor 
 DB_CONNECTION=sqlite
 ```
 
-Para MySQL ou PostgreSQL, ajuste as variáveis `DB_*`:
-
-```env
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=chamados
-DB_USERNAME=root
-DB_PASSWORD=
-```
-
 ## Banco de Dados
 
 ```bash
 # SQLite: criar o arquivo (se não existir)
 touch database/database.sqlite
 
-# Executar migrations
-php artisan migrate
-
-# Executar seeders (cria 3 responsáveis padrão)
-php artisan db:seed
+# Executar migrations + seeders
+php artisan migrate --seed
 ```
 
-**Responsáveis criados pelo seed:**
+**Dados criados pelo seed:**
 
-| Nome | E-mail |
-|---|---|
-| João Silva | joao@empresa.com |
-| Maria Souza | maria@empresa.com |
-| Pedro Santos | pedro@empresa.com |
+3 responsáveis padrão (João Silva, Maria Souza, Pedro Santos) e 5 chamados de exemplo:
+
+| Chamado | Prioridade | Status |
+|---|---|---|
+| Erro ao emitir relatório financeiro mensal | Alta | Aberto |
+| Usuário não consegue acessar o portal interno | Média | Em Andamento |
+| Solicitação de instalação de impressora | Baixa | Resolvido |
+| Sistema de vendas apresenta lentidão | Alta | Em Andamento |
+| Atualização de dados cadastrais de colaborador | Baixa | Fechado |
 
 ---
 
@@ -171,7 +161,7 @@ php artisan test --filter=TicketServiceTest
 | Arquivo | Tipo | Foco |
 |---|---|---|
 | `TicketTest.php` | Feature | Model: `isOpen()`, `scopeOpen`, casts |
-| `TicketServiceTest.php` | Feature | Serviços: auto-assign, tiebreaker, `opened_at` |
+| `TicketServiceTest.php` | Feature | Serviços: auto-assign, tiebreaker, `opened_at`, `closed_at` |
 | `TicketHttpTest.php` | Feature | Controller HTTP: CRUD, filtros, atribuição |
 
 ---
