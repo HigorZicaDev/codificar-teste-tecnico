@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { Head, Link, useForm } from '@inertiajs/vue3';
-import AppLayout from '@/layouts/AppLayout.vue';
 import TicketPriorityBadge from '@/components/TicketPriorityBadge.vue';
 import TicketStatusBadge from '@/components/TicketStatusBadge.vue';
+import AppLayout from '@/layouts/AppLayout.vue';
 import { formatDatetime } from '@/lib/utils';
 import * as tickets from '@/routes/tickets';
 import * as owner from '@/routes/tickets/owner';
@@ -72,15 +72,6 @@ function autoAssign() {
 
                     <div>
                         <dt class="mb-1 text-xs font-medium tracking-wider text-gray-400 uppercase">
-                            Data de Início
-                        </dt>
-                        <dd class="text-sm text-gray-700">
-                            {{ formatDatetime(ticket.date_start) }}
-                        </dd>
-                    </div>
-
-                    <div>
-                        <dt class="mb-1 text-xs font-medium tracking-wider text-gray-400 uppercase">
                             Aberto em
                         </dt>
                         <dd class="text-sm text-gray-700">
@@ -90,17 +81,13 @@ function autoAssign() {
 
                     <div>
                         <dt class="mb-1 text-xs font-medium tracking-wider text-gray-400 uppercase">
-                            Criado em
+                            Fechado em
                         </dt>
-                        <dd class="text-sm text-gray-700">{{ formatDatetime(ticket.created_at) }}</dd>
+                        <dd class="text-sm text-gray-700">
+                            {{ ticket.closed_at ? formatDatetime(ticket.closed_at) : '—' }}
+                        </dd>
                     </div>
 
-                    <div>
-                        <dt class="mb-1 text-xs font-medium tracking-wider text-gray-400 uppercase">
-                            Atualizado em
-                        </dt>
-                        <dd class="text-sm text-gray-700">{{ formatDatetime(ticket.updated_at) }}</dd>
-                    </div>
                 </div>
 
                 <div class="mt-6">

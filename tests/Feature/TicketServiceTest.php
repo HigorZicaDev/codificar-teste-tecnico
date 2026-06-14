@@ -21,7 +21,6 @@ function ticketData(array $overrides = []): array
         'title' => 'Test ticket',
         'description' => 'Description',
         'priority' => TicketPriority::Medium,
-        'date_start' => now()->toDateTimeString(),
     ], $overrides);
 }
 
@@ -113,6 +112,32 @@ it('throws DomainException when no owners exist', function () {
         ->toThrow(DomainException::class, 'No owners available for assignment.');
 });
 
+// --- closed_at on create ---
+
+it('sets closed_at when creating with resolved status', function () {
+    Owner::factory()->create();
+
+    $ticket = makeService()->create(ticketData(['status' => TicketStatus::Resolved]));
+
+    expect($ticket->closed_at)->not->toBeNull();
+});
+
+it('sets closed_at when creating with closed status', function () {
+    Owner::factory()->create();
+
+    $ticket = makeService()->create(ticketData(['status' => TicketStatus::Closed]));
+
+    expect($ticket->closed_at)->not->toBeNull();
+});
+
+it('does not set closed_at when creating with open status', function () {
+    Owner::factory()->create();
+
+    $ticket = makeService()->create(ticketData(['status' => TicketStatus::Open]));
+
+    expect($ticket->closed_at)->toBeNull();
+});
+
 // --- update ---
 
 it('sets opened_at on update when transitioning to open state', function () {
@@ -140,6 +165,33 @@ it('does not overwrite opened_at on update if already set', function () {
     makeService()->update($ticket, ['status' => TicketStatus::InProgress]);
 
     expect($ticket->fresh()->opened_at->toDateString())->toBe($originalDate->toDateString());
+});
+
+it('sets closed_at on update when transitioning to closed state', function () {
+    $owner = Owner::factory()->create();
+    $ticket = Ticket::factory()->create([
+        'owner_id' => $owner->id,
+        'status' => TicketStatus::Open,
+        'closed_at' => null,
+    ]);
+
+    makeService()->update($ticket, ['status' => TicketStatus::Resolved]);
+
+    expect($ticket->fresh()->closed_at)->not->toBeNull();
+});
+
+it('does not overwrite closed_at on update if already set', function () {
+    $owner = Owner::factory()->create();
+    $originalDate = now()->subDays(3);
+    $ticket = Ticket::factory()->create([
+        'owner_id' => $owner->id,
+        'status' => TicketStatus::Resolved,
+        'closed_at' => $originalDate,
+    ]);
+
+    makeService()->update($ticket, ['status' => TicketStatus::Closed]);
+
+    expect($ticket->fresh()->closed_at->toDateString())->toBe($originalDate->toDateString());
 });
 
 // --- manual assign ---

@@ -54,7 +54,6 @@ test('creates ticket successfully with explicit owner', function () {
         'title' => 'Test Ticket',
         'description' => 'Test description',
         'priority' => 'high',
-        'date_start' => now()->toDateTimeString(),
         'owner_id' => $owner->id,
     ])->assertStatus(302)->assertSessionHas('success');
 
@@ -68,7 +67,6 @@ test('creates ticket with auto-assignment when owner_id is absent', function () 
         'title' => 'Auto Ticket',
         'description' => 'Description',
         'priority' => 'medium',
-        'date_start' => now()->toDateTimeString(),
     ])->assertStatus(302)->assertSessionHas('success');
 
     $this->assertDatabaseHas('tickets', ['title' => 'Auto Ticket', 'owner_id' => $owner->id]);
@@ -76,7 +74,7 @@ test('creates ticket with auto-assignment when owner_id is absent', function () 
 
 test('validates required fields on create', function () {
     $this->post('/', [])
-        ->assertSessionHasErrors(['title', 'description', 'priority', 'date_start']);
+        ->assertSessionHasErrors(['title', 'description', 'priority']);
 });
 
 // --- show / edit ---

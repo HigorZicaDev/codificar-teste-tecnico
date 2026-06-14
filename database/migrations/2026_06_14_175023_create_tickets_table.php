@@ -20,7 +20,6 @@ return new class extends Migration
             $table->enum('priority', array_column(TicketPriority::cases(), 'value'));
             $table->enum('status', array_column(TicketStatus::cases(), 'value'))->default(TicketStatus::Open->value);
             $table->foreignId('owner_id')->constrained()->restrictOnDelete();
-            $table->dateTime('date_start');
             $table->timestamps();
         });
     }

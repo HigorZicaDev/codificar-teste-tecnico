@@ -25,7 +25,6 @@ class StoreTicketRequest extends FormRequest
             'priority' => ['required', Rule::enum(TicketPriority::class)],
             'status' => ['sometimes', Rule::enum(TicketStatus::class)],
             'owner_id' => ['nullable', 'exists:owners,id'],
-            'date_start' => ['required', 'date'],
         ];
     }
 }

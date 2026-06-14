@@ -24,6 +24,7 @@ class TicketService
         $status = $this->resolveStatus($data['status'] ?? TicketStatus::Open);
         $data['status'] = $status;
         $data['opened_at'] = $this->resolveOpenedAt($status);
+        $data['closed_at'] = $this->resolveClosedAt($status);
 
         return Ticket::create($data);
     }
@@ -39,6 +40,10 @@ class TicketService
 
             if ($newStatus->isOpen() && $ticket->opened_at === null) {
                 $data['opened_at'] = now();
+            }
+
+            if ($newStatus->isClosed() && $ticket->closed_at === null) {
+                $data['closed_at'] = now();
             }
         }
 
@@ -70,5 +75,10 @@ class TicketService
     private function resolveOpenedAt(TicketStatus $status): ?DateTimeInterface
     {
         return $status->isOpen() ? now() : null;
+    }
+
+    private function resolveClosedAt(TicketStatus $status): ?DateTimeInterface
+    {
+        return $status->isClosed() ? now() : null;
     }
 }

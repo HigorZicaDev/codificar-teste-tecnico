@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { router } from '@inertiajs/vue3';
 import { ref, watch } from 'vue';
-import type { Owner, TicketFilters, TicketPriority, TicketStatus } from '@/types';
 import * as tickets from '@/routes/tickets';
+import type { Owner, TicketFilters } from '@/types';
 
 const props = defineProps<{
     filters: TicketFilters;
@@ -14,10 +14,22 @@ let searchTimeout: ReturnType<typeof setTimeout>;
 
 function applyFilters() {
     const query: Record<string, string> = {};
-    if (local.value.search) query.search = local.value.search;
-    if (local.value.status) query.status = local.value.status;
-    if (local.value.priority) query.priority = local.value.priority;
-    if (local.value.owner_id) query.owner_id = String(local.value.owner_id);
+
+    if (local.value.search) {
+query.search = local.value.search;
+}
+
+    if (local.value.status) {
+query.status = local.value.status;
+}
+
+    if (local.value.priority) {
+query.priority = local.value.priority;
+}
+
+    if (local.value.owner_id) {
+query.owner_id = String(local.value.owner_id);
+}
 
     router.get(tickets.index().url, query, { preserveState: true, replace: true });
 }

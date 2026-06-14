@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { Head, Link, useForm } from '@inertiajs/vue3';
-import AppLayout from '@/layouts/AppLayout.vue';
 import TicketForm from '@/components/TicketForm.vue';
+import AppLayout from '@/layouts/AppLayout.vue';
+import { formatDatetime } from '@/lib/utils';
 import * as tickets from '@/routes/tickets';
 import * as owner from '@/routes/tickets/owner';
 import type { Owner, Ticket } from '@/types';
@@ -39,6 +40,9 @@ function autoAssign() {
                 <h1 class="text-lg font-semibold text-gray-900">
                     Editar chamado #{{ String(ticket.id).padStart(4, '0') }}
                 </h1>
+                <span v-if="ticket.opened_at" class="text-xs text-gray-400">
+                    Aberto em {{ formatDatetime(ticket.opened_at) }}
+                </span>
                 <button
                     type="button"
                     :disabled="autoAssignForm.processing"

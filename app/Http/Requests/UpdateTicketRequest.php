@@ -25,7 +25,6 @@ class UpdateTicketRequest extends FormRequest
             'priority' => ['sometimes', Rule::enum(TicketPriority::class)],
             'status' => ['sometimes', Rule::enum(TicketStatus::class)],
             'owner_id' => ['sometimes', 'nullable', 'exists:owners,id'],
-            'date_start' => ['sometimes', 'date'],
         ];
     }
 }

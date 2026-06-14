@@ -13,4 +13,9 @@ enum TicketStatus: string
     {
         return in_array($this, [self::Open, self::InProgress]);
     }
+
+    public function isClosed(): bool
+    {
+        return in_array($this, [self::Resolved, self::Closed]);
+    }
 }

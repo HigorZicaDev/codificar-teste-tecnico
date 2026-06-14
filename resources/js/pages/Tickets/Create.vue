@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
-import AppLayout from '@/layouts/AppLayout.vue';
 import TicketForm from '@/components/TicketForm.vue';
+import AppLayout from '@/layouts/AppLayout.vue';
 import * as tickets from '@/routes/tickets';
 import type { Owner } from '@/types';
 

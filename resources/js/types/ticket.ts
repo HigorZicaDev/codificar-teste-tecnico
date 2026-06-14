@@ -15,8 +15,8 @@ export type Ticket = {
     status: TicketStatus;
     owner_id: number;
     owner: Owner;
-    date_start: string;
     opened_at: string | null;
+    closed_at: string | null;
     created_at: string;
     updated_at: string;
 };

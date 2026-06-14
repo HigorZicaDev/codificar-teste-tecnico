@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('tickets', function (Blueprint $table) {
-            $table->dateTime('opened_at')->nullable()->after('owner_id');
+            $table->dateTime('closed_at')->nullable()->after('opened_at');
         });
     }
 
@@ -22,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('tickets', function (Blueprint $table) {
-            $table->dropColumn('opened_at');
+            $table->dropColumn('closed_at');
         });
     }
 };

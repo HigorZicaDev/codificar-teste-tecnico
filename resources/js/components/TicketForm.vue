@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
-import type { Owner, Ticket } from '@/types';
-import { toDatetimeLocal } from '@/lib/utils';
 import * as tickets from '@/routes/tickets';
+import type { Owner, Ticket } from '@/types';
 
 const props = defineProps<{
     ticket?: Ticket;
@@ -18,7 +17,6 @@ const form = useForm({
     description: props.ticket?.description ?? '',
     priority: props.ticket?.priority ?? 'medium',
     status: props.ticket?.status ?? 'open',
-    date_start: toDatetimeLocal(props.ticket?.date_start) || toDatetimeLocal(new Date().toISOString()),
     owner_id: props.ticket?.owner_id ?? (null as number | null),
 });
 
@@ -98,19 +96,6 @@ function submit() {
                 </select>
                 <p v-if="form.errors.status" class="mt-1 text-xs text-red-600">
                     {{ form.errors.status }}
-                </p>
-            </div>
-
-            <div>
-                <label class="mb-1 block text-sm font-medium text-gray-700">Data de início</label>
-                <input
-                    v-model="form.date_start"
-                    type="datetime-local"
-                    class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
-                    :class="{ 'border-red-400': form.errors.date_start }"
-                />
-                <p v-if="form.errors.date_start" class="mt-1 text-xs text-red-600">
-                    {{ form.errors.date_start }}
                 </p>
             </div>
         </div>

@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
-import AppLayout from '@/layouts/AppLayout.vue';
 import TicketFilters from '@/components/TicketFilters.vue';
 import TicketPriorityBadge from '@/components/TicketPriorityBadge.vue';
 import TicketStatusBadge from '@/components/TicketStatusBadge.vue';
-import { formatDatetime } from '@/lib/utils';
+import AppLayout from '@/layouts/AppLayout.vue';
 import * as ticketRoutes from '@/routes/tickets';
 import type { Owner, PaginatedTickets, TicketFilters as Filters } from '@/types';
 
@@ -69,9 +68,6 @@ defineProps<{
                                 Responsável
                             </th>
                             <th class="px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">
-                                Data Início
-                            </th>
-                            <th class="px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">
                                 Ações
                             </th>
                         </tr>
@@ -99,9 +95,6 @@ defineProps<{
                             </td>
                             <td class="px-6 py-4 text-gray-700">
                                 {{ ticket.owner?.name ?? '—' }}
-                            </td>
-                            <td class="px-6 py-4 text-gray-500">
-                                {{ formatDatetime(ticket.date_start) }}
                             </td>
                             <td class="px-6 py-4">
                                 <div class="flex items-center gap-2">
@@ -174,8 +167,7 @@ defineProps<{
                                     ? 'bg-blue-600 text-white'
                                     : 'text-gray-500 hover:bg-gray-100'
                             "
-                            v-html="link.label"
-                        />
+                        ><span v-html="link.label" /></Link>
                         <span
                             v-else
                             class="rounded px-3 py-1 text-sm text-gray-300"

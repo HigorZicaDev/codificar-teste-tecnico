@@ -40,7 +40,6 @@ it('casts priority and status to their enum types', function () {
 
     expect($ticket->status)->toBeInstanceOf(TicketStatus::class);
     expect($ticket->priority)->toBeInstanceOf(TicketPriority::class);
-    expect($ticket->date_start)->toBeInstanceOf(DateTimeInterface::class);
 });
 
 it('belongs to an owner', function () {

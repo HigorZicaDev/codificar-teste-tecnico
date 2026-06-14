@@ -26,7 +26,6 @@ class TicketFactory extends Factory
             'priority' => fake()->randomElement(TicketPriority::cases()),
             'status' => fake()->randomElement(TicketStatus::cases()),
             'owner_id' => Owner::factory(),
-            'date_start' => fake()->dateTimeBetween('-1 month', 'now'),
         ];
     }
 }
