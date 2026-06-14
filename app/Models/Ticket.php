@@ -20,10 +20,11 @@ use Illuminate\Support\Carbon;
  * @property TicketStatus $status
  * @property int $owner_id
  * @property Carbon $date_start
+ * @property Carbon|null $opened_at
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
-#[Fillable(['title', 'description', 'priority', 'status', 'owner_id', 'date_start'])]
+#[Fillable(['title', 'description', 'priority', 'status', 'owner_id', 'date_start', 'opened_at'])]
 class Ticket extends Model
 {
     /** @use HasFactory<TicketFactory> */
@@ -35,6 +36,7 @@ class Ticket extends Model
             'priority' => TicketPriority::class,
             'status' => TicketStatus::class,
             'date_start' => 'datetime',
+            'opened_at' => 'datetime',
         ];
     }
 
