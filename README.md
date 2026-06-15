@@ -8,7 +8,7 @@ Sistema web para gerenciamento de chamados internos de equipes. Permite criar, v
 
 | Camada | Tecnologia |
 |---|---|
-| Backend | PHP 8.4 + Laravel 13 |
+| Backend | PHP 8.5 ou 8.4 + Laravel 13 |
 | Frontend SPA | Vue 3 + Inertia.js v3 |
 | Estilização | Tailwind CSS v4 |
 | Banco de dados | SQLite (padrão) |
@@ -30,12 +30,6 @@ Sistema web para gerenciamento de chamados internos de equipes. Permite criar, v
 
 **Enums PHP 8.1:**
 `TicketStatus` e `TicketPriority` são backed enums tipados, eliminando strings mágicas e permitindo lógica no próprio tipo (ex.: `TicketStatus::isOpen()`).
-
-**Rotas explícitas:**
-`Route::resource('/')` gerava parâmetros vazios que quebravam o Wayfinder. Solução: rotas explícitas com nomes `tickets.*` e URLs na raiz (`/`, `/{ticket}`, etc.).
-
-**Wayfinder:**
-Gera funções TypeScript a partir das rotas nomeadas do Laravel (`@/routes/tickets`), garantindo que URLs no frontend sejam sempre sincronizadas com o backend.
 
 **`opened_at` e `closed_at` gerenciados pelo serviço:**
 Registram, respectivamente, quando o chamado entrou em estado aberto e quando foi fechado/resolvido pela primeira vez. Ambos são definidos pelo `TicketService` e nunca sobrescritos após definidos. `created_at`/`updated_at` são campos internos do Laravel e não são exibidos na interface.
@@ -69,7 +63,7 @@ Ao criar ou reatribuir um chamado sem especificar responsável:
 
 ## Requisitos
 
-- PHP ^8.4
+- PHP 8.4 ou 8.5
 - Composer ^2
 - Node.js ^20
 - SQLite (padrão)
@@ -186,15 +180,12 @@ php artisan test --filter=TicketServiceTest
 **Trade-offs adotados:**
 
 - **SQLite como padrão** — zero configuração local; troca trivial para MySQL/PostgreSQL via `.env`
-- **Rotas explícitas no root** — necessário para compatibilidade com Wayfinder; sem impacto funcional
 - **Sem autenticação** — fora do escopo do desafio; estrutura pronta para adicionar Laravel Sanctum ou Fortify
-- **`opened_at` no serviço** — explícito e testável; alternativa via observer adicionaria indireção desnecessária
 
 **Possíveis evoluções:**
 
+- Adicionar docker para criaçao de ambiente isolado para desenvolvimento e produçao.
 - Autenticação com papéis (admin / responsável)
 - Comentários e histórico de mudanças de status por chamado
 - Notificações por e-mail ao atribuir responsável
-- SLA com alertas de prazo vencendo
-- Dashboard com métricas de carga por responsável
 - API REST versionada para integrações externas

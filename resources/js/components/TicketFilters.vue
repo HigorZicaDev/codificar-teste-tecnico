@@ -62,44 +62,60 @@ const hasFilters = () =>
 </script>
 
 <template>
-    <div class="flex flex-wrap items-center gap-3">
-        <input
-            v-model="local.search"
-            type="text"
-            placeholder="Buscar por título ou descrição..."
-            class="h-9 w-64 rounded-md border border-gray-300 px-3 text-sm text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
-        />
+    <div class="flex flex-wrap items-end gap-3">
+        <div class="flex flex-col gap-1">
+            <label for="filter-search" class="text-xs font-medium text-gray-600">Buscar</label>
+            <input
+                id="filter-search"
+                v-model="local.search"
+                type="text"
+                placeholder="Buscar por título ou descrição..."
+                class="h-9 w-64 rounded-md border border-gray-300 px-3 text-sm text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
+            />
+        </div>
 
-        <select
-            v-model="local.status"
-            class="h-9 rounded-md border border-gray-300 px-3 text-sm text-gray-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
-        >
-            <option value="">Todos os status</option>
-            <option value="open">Aberto</option>
-            <option value="in_progress">Em Andamento</option>
-            <option value="resolved">Resolvido</option>
-            <option value="closed">Fechado</option>
-        </select>
+        <div class="flex flex-col gap-1">
+            <label for="filter-status" class="text-xs font-medium text-gray-600">Status</label>
+            <select
+                id="filter-status"
+                v-model="local.status"
+                class="h-9 rounded-md border border-gray-300 px-3 text-sm text-gray-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
+            >
+                <option value="">Todos os status</option>
+                <option value="open">Aberto</option>
+                <option value="in_progress">Em Andamento</option>
+                <option value="resolved">Resolvido</option>
+                <option value="closed">Fechado</option>
+            </select>
+        </div>
 
-        <select
-            v-model="local.priority"
-            class="h-9 rounded-md border border-gray-300 px-3 text-sm text-gray-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
-        >
-            <option value="">Todas as prioridades</option>
-            <option value="high">Alta</option>
-            <option value="medium">Média</option>
-            <option value="low">Baixa</option>
-        </select>
+        <div class="flex flex-col gap-1">
+            <label for="filter-priority" class="text-xs font-medium text-gray-600">Prioridade</label>
+            <select
+                id="filter-priority"
+                v-model="local.priority"
+                class="h-9 rounded-md border border-gray-300 px-3 text-sm text-gray-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
+            >
+                <option value="">Todas as prioridades</option>
+                <option value="high">Alta</option>
+                <option value="medium">Média</option>
+                <option value="low">Baixa</option>
+            </select>
+        </div>
 
-        <select
-            v-model="local.owner_id"
-            class="h-9 rounded-md border border-gray-300 px-3 text-sm text-gray-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
-        >
-            <option value="">Todos os responsáveis</option>
-            <option v-for="owner in owners" :key="owner.id" :value="owner.id">
-                {{ owner.name }}
-            </option>
-        </select>
+        <div class="flex flex-col gap-1">
+            <label for="filter-owner" class="text-xs font-medium text-gray-600">Responsável</label>
+            <select
+                id="filter-owner"
+                v-model="local.owner_id"
+                class="h-9 rounded-md border border-gray-300 px-3 text-sm text-gray-900 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
+            >
+                <option value="">Todos os responsáveis</option>
+                <option v-for="owner in owners" :key="owner.id" :value="owner.id">
+                    {{ owner.name }}
+                </option>
+            </select>
+        </div>
 
         <button
             v-if="hasFilters()"

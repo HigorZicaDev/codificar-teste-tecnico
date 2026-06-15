@@ -28,14 +28,14 @@ watch(
         <header class="border-b border-gray-200 bg-white">
             <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
                 <Link :href="tickets.index().url" class="text-lg font-semibold text-gray-900">
-                    Chamados
+                    Codificar Sistemas
                 </Link>
                 <nav class="flex items-center gap-6">
                     <Link
                         :href="tickets.index().url"
                         class="text-sm font-medium text-gray-600 hover:text-gray-900"
                     >
-                        Listagem
+                        Listagem de Tickets
                     </Link>
                 </nav>
             </div>
