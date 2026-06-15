@@ -82,14 +82,26 @@ it('auto-assigns owner with fewest open tickets', function () {
     expect($ticket->fresh()->owner_id)->toBe($free->id);
 });
 
-it('uses lowest id as tiebreaker for auto-assign', function () {
+it('breaks ties by lowest open priority load', function () {
+    $heavy = Owner::factory()->create();
+    $light = Owner::factory()->create();
+
+    // Ambos com 1 chamado em aberto (empate na contagem), pesos diferentes
+    Ticket::factory()->create(['owner_id' => $heavy->id, 'status' => TicketStatus::Open, 'priority' => TicketPriority::High]);
+    Ticket::factory()->create(['owner_id' => $light->id, 'status' => TicketStatus::Open, 'priority' => TicketPriority::Low]);
+
+    $ticket = makeService()->create(ticketData());
+
+    expect($ticket->owner_id)->toBe($light->id);
+});
+
+it('uses lowest id as final tiebreaker when count and priority load tie', function () {
     $first = Owner::factory()->create();
     $second = Owner::factory()->create();
 
-    $ticket = Ticket::factory()->create(['owner_id' => $second->id]);
-    makeService()->autoAssignOwner($ticket);
+    $ticket = makeService()->create(ticketData());
 
-    expect($ticket->fresh()->owner_id)->toBe($first->id);
+    expect($ticket->owner_id)->toBe($first->id);
 });
 
 it('only counts open and in_progress tickets for auto-assign load', function () {

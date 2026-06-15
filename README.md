@@ -61,8 +61,9 @@ Ao criar ou reatribuir um chamado sem especificar responsável:
 
 1. Conta os chamados em aberto (`open` + `in_progress`) de cada responsável cadastrado
 2. Atribui ao responsável com **menor** contagem
-3. Em empate, vence o responsável com **menor ID** (determinístico e previsível)
-4. Se não houver responsáveis cadastrados, retorna erro ao usuário
+3. Em empate na contagem, vence quem tem **menor carga de prioridade** nos chamados em aberto (soma dos pesos: baixa=1, média=2, alta=3)
+4. Persistindo o empate, vence o **menor ID** (determinístico e previsível)
+5. Se não houver responsáveis cadastrados, retorna erro ao usuário
 
 ---
 
